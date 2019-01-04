@@ -203,3 +203,111 @@ fn display(board:&[char; 9], current:(i32, i32)) {
         i = i + 1;
     }
 }
+
+
+
+
+
+
+#[test]
+fn _get_index_from_position() {
+    assert_eq!(get_index_from_position((0, 0)), 0);
+    assert_eq!(get_index_from_position((0, 1)), 1);
+    assert_eq!(get_index_from_position((0, 2)), 2);
+    assert_eq!(get_index_from_position((1, 0)), 3);
+    assert_eq!(get_index_from_position((1, 1)), 4);
+    assert_eq!(get_index_from_position((1, 2)), 5);
+    assert_eq!(get_index_from_position((2, 0)), 6);
+    assert_eq!(get_index_from_position((2, 1)), 7);
+    assert_eq!(get_index_from_position((2, 2)), 8);
+}
+
+#[test]
+fn _next_turn() {
+    let mut b = [
+        O, O, N,
+        X, N, N,
+        N, N, N,
+    ];
+    assert_eq!(next_turn(&mut b, (2, 2), X), O);
+    assert_eq!(next_turn(&mut b, (0, 0), X), X);
+}
+
+#[test]
+fn _check_for_draw() {
+    let mut b = [
+        O, O, X,
+        X, O, O,
+        O, X, X,
+    ];
+    assert_eq!(check_for_draw(&mut b), true);
+}
+
+#[test]
+fn _check_triplet() {
+    let mut b = [
+        O, O, X,
+        X, O, O,
+        O, X, O,
+    ];
+    assert_eq!(check_triplet(&mut b, [0, 4, 8]), true);
+    assert_eq!(check_triplet(&mut b, [0, 1, 2]), false);
+    assert_eq!(check_triplet(&mut b, [0, 3, 6]), false);
+    assert_eq!(check_triplet(&mut b, [6, 7, 8]), false);
+}
+
+#[test]
+fn _check_triplets() {
+    let mut b = [
+        O, O, X,
+        X, O, O,
+        O, X, O,
+    ];
+    assert_eq!(check_triplets(&mut b, &[H0, H1, H2]), false);
+    assert_eq!(check_triplets(&mut b, &[H0, V1, D1]), false);
+    assert_eq!(check_triplets(&mut b, &[H0, V1, D0]), true);
+}
+
+#[test]
+fn _check_for_win() {
+    let mut b = [
+        O, O, X,
+        X, O, O,
+        O, X, O,
+    ];
+    assert_eq!(check_for_win(&mut b, (2, 2)), true);
+    assert_eq!(check_for_win(&mut b, (0, 1)), false);
+    assert_eq!(check_for_win(&mut b, (2, 1)), false);
+}
+
+#[test]
+fn _move_left() {
+    assert_eq!(move_left((2, 2)), (2, 1));
+    assert_eq!(move_left((2, 1)), (2, 0));
+    assert_eq!(move_left((2, 0)), (2, 0));
+    assert_eq!(move_left((0, 0)), (0, 0));
+}
+
+#[test]
+fn _move_right() {
+    assert_eq!(move_right((2, 2)), (2, 2));
+    assert_eq!(move_right((2, 1)), (2, 2));
+    assert_eq!(move_right((2, 0)), (2, 1));
+    assert_eq!(move_right((0, 0)), (0, 1));
+}
+
+#[test]
+fn _move_up() {
+    assert_eq!(move_up((2, 2)), (1, 2));
+    assert_eq!(move_up((2, 1)), (1, 1));
+    assert_eq!(move_up((2, 0)), (1, 0));
+    assert_eq!(move_up((0, 0)), (0, 0));
+}
+
+#[test]
+fn _move_down() {
+    assert_eq!(move_down((2, 2)), (2, 2));
+    assert_eq!(move_down((2, 1)), (2, 1));
+    assert_eq!(move_down((2, 0)), (2, 0));
+    assert_eq!(move_down((0, 0)), (1, 0));
+}
