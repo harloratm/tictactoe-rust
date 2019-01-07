@@ -9,5 +9,4 @@ cargo run
 
 ## TODO
 
-1. unit testing
-2. AI
+1. AI
